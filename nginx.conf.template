@@ -1,16 +1,16 @@
+
 server {
     listen 80;
     server_name localhost;
     root /usr/share/nginx/html;
     index index.html;
 
-    # Handle React Router — send all routes to index.html
     location / {
         try_files $uri $uri/ /index.html;
     }
 
-     location /api/ {
-        proxy_pass http://backend-service:8080;    # ✅ Kubernetes service name
+    location /api/ {
+        proxy_pass http://${BACKEND_HOST}:${BACKEND_PORT}/api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
     }
